@@ -71,7 +71,7 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-zinc-800">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="font-semibold tracking-[0.25em] uppercase text-sm">
-            JOHN DOE
+            Collins OBiora
           </div>
           <div className="hidden gap-6 text-xs md:flex tracking-widest uppercase">
             {sections.map((s) => (
@@ -110,14 +110,14 @@ export default function HomePage() {
         >
           <div className="flex-1 space-y-6">
             <p className="text-xs uppercase tracking-[0.3em] text-amber-300">
-              Trumpet Player • Composer
+              Trumpet Player 
             </p>
             <h1 className="text-4xl font-light tracking-wide md:text-6xl">
-              JOHN <span className="font-semibold">DOE</span>
+              COLLINS <span className="font-semibold">OBIORA</span>
             </h1>
             <p className="max-w-xl text-sm text-zinc-300 md:text-base">
               A modern trumpet voice rooted in classic jazz tradition. From
-              intimate clubs to festival stages, John weaves lyrical lines,
+              intimate clubs to festival stages, Collins weaves lyrical lines,
               deep grooves, and cinematic soundscapes.
             </p>
             <div className="flex flex-wrap gap-4 text-xs uppercase tracking-widest">
@@ -157,9 +157,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-[url('/images/trumpet-hero.jpg')] bg-cover bg-center opacity-80" />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
               <div className="absolute bottom-4 left-4 space-y-1 text-xs uppercase tracking-[0.2em] text-zinc-200">
-                <p className="text-[10px] text-zinc-400">Upcoming show</p>
-                <p className="font-semibold">LIVE @ BLUE NOTE</p>
-                <p className="text-[11px]">Dec 14 • New York</p>
+              
               </div>
             </div>
           </div>
@@ -176,13 +174,13 @@ export default function HomePage() {
                 A trumpet story written in smoky rooms and late-night sessions.
               </p>
               <p className="mt-4 text-sm text-zinc-300 leading-relaxed">
-                John Doe is a trumpet player and composer whose sound blends
+                Collins OBiora is a trumpet player and composer whose sound blends
                 classic jazz, contemporary harmony, and cinematic textures.
                 Having performed in clubs and festivals across Europe and the
                 US, his music balances lyricism with fearless improvisation.
               </p>
               <p className="mt-3 text-sm text-zinc-300 leading-relaxed">
-                Whether in a stripped-down trio or a full ensemble, John&apos;s
+                Whether in a stripped-down trio or a full ensemble, Collins&apos;s
                 horn carries a distinctive voice—warm, expressive, and deeply
                 melodic.
               </p>
@@ -408,7 +406,7 @@ export default function HomePage() {
 
       {/* FOOTER */}
       <footer className="border-t border-zinc-800 py-6 text-center text-xs text-zinc-500">
-        © {new Date().getFullYear()} John Doe. All rights reserved.
+        © {new Date().getFullYear()} Collins OBiora. All rights reserved.
       </footer>
     </div>
   );
