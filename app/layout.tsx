@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "John Doe | Trumpet Player",
+  title: " Collins OBiora | Trumpet Player",
   description: "Trumpet player portfolio – live shows, recordings, and contact.",
 };
 
