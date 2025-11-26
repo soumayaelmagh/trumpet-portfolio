@@ -3,13 +3,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const sections = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "music", label: "Music" },
+ { id: "gallery", label: "Gallery" },
   { id: "shows", label: "Shows" },
-  { id: "gallery", label: "Gallery" },
+  { id: "covers", label: "Covers" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -39,20 +40,154 @@ const tracks = [
   },
 ];
 
-const galleryImages = [
+const videos = [
   {
-    src: "/images/trumpet-1.jpg",
-    alt: "Trumpet player on stage",
+    title: "Live at Blue Note",
+    description: "Excerpt from the late-night trio set.",
+    embedUrl: "https://www.youtube.com/embed/2O9dQ4OibuY",
   },
   {
-    src: "/images/trumpet-2.jpg",
-    alt: "Close-up of trumpet",
+    title: "Studio Session – City Lights",
+    description: "Recording session from the latest EP.",
+    embedUrl: "https://www.youtube.com/embed/eJMBApC44U8",
   },
   {
-    src: "/images/trumpet-3.jpg",
-    alt: "Jazz band performing live",
+    title: "Festival Performance",
+    description: "Highlights from the summer jazz festival.",
+    embedUrl: "https://www.youtube.com/embed/llLoccyPIEw",
   },
 ];
+const mediaItems = [
+  {
+    type: "image" as const,
+    src: "/media/img2.JPEG",
+    title: "Live on stage",
+    description: "Club performance – downtown set.",
+  },
+  {
+    type: "image" as const,
+    src: "/media/img3.jpeg",
+    title:  "Trumpet solo",
+    description: "Promo shoot for recent shows.",
+  },
+  {
+    type: "video" as const,
+    src: "/media/video2.mp4",
+    poster: "/images/img1.JPEG", 
+    title: "Trumpet solo",
+    description: "Excerpt from a recent solo session.",
+  },
+  {
+    type: "video" as const,
+    src: "/media/video1.mp4",
+    poster: "images/img1.JPEG",
+    title:  "Trumpet solo",
+    description: "Live recording with the quartet.",
+  },
+  {
+    type: "video" as const,
+    src: "/media/video3.mp4",
+    poster: "/images/img1.JPEG",
+    title:  "Trumpet solo",
+    description: "Live recording with the quartet.",
+  },
+];
+
+function VideoSlider() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? videos.length - 1 : prevIndex - 1
+    );
+  };
+
+  const next = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === videos.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const currentVideo = videos[currentIndex];
+
+  return (
+    <div className="relative rounded-lg border border-zinc-800 bg-zinc-950/50 px-4 py-6 md:px-6 md:py-8">
+      {/* Main content */}
+      <div className="grid items-start gap-6 md:grid-cols-[2fr,1fr]">
+        {/* Video */}
+        <div className="aspect-video w-full overflow-hidden rounded-md bg-black">
+          <iframe
+            src={currentVideo.embedUrl}
+            title={currentVideo.title}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          {/* For local video files instead of YouTube, replace iframe with:
+          <video
+            src="/videos/my-video.mp4"
+            controls
+            className="h-full w-full object-cover"
+          />
+          */}
+        </div>
+
+        {/* Info + list */}
+        <div className="flex h-full flex-col justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+              {currentIndex + 1} / {videos.length}
+            </p>
+            <h3 className="mt-2 text-lg font-medium">{currentVideo.title}</h3>
+            <p className="mt-2 text-sm text-zinc-300">
+              {currentVideo.description}
+            </p>
+          </div>
+
+          <div className="space-y-2 text-xs text-zinc-400">
+            <p className="uppercase tracking-[0.2em] text-zinc-500">
+              Other videos
+            </p>
+            <div className="space-y-1">
+              {videos.map((video, index) => (
+                <button
+                  key={video.title}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`flex w-full items-center justify-between rounded-md px-2 py-1 text-left transition ${
+                    index === currentIndex
+                      ? "bg-[#b36666]/15 text-[#b36666]"
+                      : "hover:bg-zinc-800/70"
+                  }`}
+                >
+                  <span className="truncate">{video.title}</span>
+                  <span className="ml-2 text-[10px] uppercase tracking-[0.2em]">
+                    {index === currentIndex ? "Now" : "Play"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Arrows */}
+      <button
+        type="button"
+        onClick={prev}
+        className="absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-zinc-700 bg-black/70 text-zinc-200 hover:border-[#b36666] hover:text-[#b36666] md:left-4"
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={next}
+        className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-zinc-700 bg-black/70 text-zinc-200 hover:border-[#b36666] hover:text-[#b36666] md:right-4"
+      >
+        <ChevronRight className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState("home");
@@ -66,22 +201,22 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-b from-black via-zinc-950 to-black">
+    <div className="flex min-h-screen flex-col bg-linear-to-b from-black via-zinc-950 to-black">
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-zinc-800">
+      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/70 backdrop-blur">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="font-semibold tracking-[0.25em] uppercase text-sm">
+          <div className="text-sm font-semibold uppercase tracking-[0.25em]">
             Collins OBiora
           </div>
-          <div className="hidden gap-6 text-xs md:flex tracking-widest uppercase">
+          <div className="hidden gap-6 text-xs uppercase tracking-widest md:flex">
             {sections.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleNavClick(s.id)}
                 className={`transition-colors ${
                   activeSection === s.id
-                    ? "text-amber-400"
-                    : "text-zinc-300 hover:text-amber-300"
+                    ? "text-[#800000]"
+                    : "text-zinc-300 hover:text-[#b36666]"
                 }`}
               >
                 {s.label}
@@ -94,7 +229,7 @@ export default function HomePage() {
               e.preventDefault();
               handleNavClick("contact");
             }}
-            className="hidden rounded-full border border-amber-500 px-4 py-2 text-xs uppercase tracking-widest hover:bg-amber-500 hover:text-black md:inline-block"
+            className="hidden rounded-full border border-[#800000] px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#b36666] hover:text-black md:inline-block"
           >
             Book Now
           </Link>
@@ -109,8 +244,8 @@ export default function HomePage() {
           className="flex min-h-[80vh] flex-col items-center justify-center gap-8 py-16 md:flex-row"
         >
           <div className="flex-1 space-y-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-300">
-              Trumpet Player 
+            <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+              Trumpet Player
             </p>
             <h1 className="text-4xl font-light tracking-wide md:text-6xl">
               COLLINS <span className="font-semibold">OBIORA</span>
@@ -123,13 +258,13 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4 text-xs uppercase tracking-widest">
               <button
                 onClick={() => handleNavClick("music")}
-                className="rounded-full bg-amber-500 px-5 py-2 text-black hover:bg-amber-400"
+                className="rounded-full bg-[#b36666] px-5 py-2 text-black hover:bg-[#b36666]"
               >
                 Listen
               </button>
               <button
                 onClick={() => handleNavClick("shows")}
-                className="rounded-full border border-zinc-600 px-5 py-2 hover:border-amber-400 hover:text-amber-300"
+                className="rounded-full border border-zinc-600 px-5 py-2 hover:border-[#800000] hover:text-[#b36666]"
               >
                 Live Dates
               </button>
@@ -137,28 +272,21 @@ export default function HomePage() {
             <div className="mt-6 flex items-center gap-4 text-xs text-zinc-400">
               <span>Follow</span>
               <div className="flex gap-3">
-                <Link href="#" className="hover:text-amber-300">
+                <Link href="#" className="hover:text-[#b36666]">
                   Instagram
                 </Link>
-                <Link href="#" className="hover:text-amber-300">
+                <Link href="#" className="hover:text-[#b36666]">
                   YouTube
-                </Link>
-                <Link href="#" className="hover:text-amber-300">
-                  Spotify
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* HERO IMAGE / SIDE PANEL */}
+          {/* HERO IMAGE */}
           <div className="mt-10 flex-1 md:mt-0">
             <div className="relative h-[360px] w-full overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
-              {/* Replace with your friend’s real photo */}
-              <div className="absolute inset-0 bg-[url('/images/trumpet-hero.jpg')] bg-cover bg-center opacity-80" />
+              <div className="absolute inset-0 bg-[url('/images/img1.JPEG')] bg-cover bg-center opacity-80" />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute bottom-4 left-4 space-y-1 text-xs uppercase tracking-[0.2em] text-zinc-200">
-              
-              </div>
             </div>
           </div>
         </section>
@@ -167,19 +295,20 @@ export default function HomePage() {
         <section id="about" className="border-t border-zinc-800 py-16">
           <div className="grid gap-8 md:grid-cols-[1.3fr,1fr]">
             <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-amber-300">
+              <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
                 About
               </h2>
               <p className="mt-4 text-2xl font-light tracking-wide">
                 A trumpet story written in smoky rooms and late-night sessions.
               </p>
-              <p className="mt-4 text-sm text-zinc-300 leading-relaxed">
-                Collins OBiora is a trumpet player and composer whose sound blends
-                classic jazz, contemporary harmony, and cinematic textures.
-                Having performed in clubs and festivals across Europe and the
-                US, his music balances lyricism with fearless improvisation.
+              <p className="mt-4 text-sm leading-relaxed text-zinc-300">
+                Collins OBiora is a trumpet player and composer whose sound
+                blends classic jazz, contemporary harmony, and cinematic
+                textures. Having performed in clubs and festivals across Europe
+                and the US, his music balances lyricism with fearless
+                improvisation.
               </p>
-              <p className="mt-3 text-sm text-zinc-300 leading-relaxed">
+              <p className="mt-3 text-sm leading-relaxed text-zinc-300">
                 Whether in a stripped-down trio or a full ensemble, Collins&apos;s
                 horn carries a distinctive voice—warm, expressive, and deeply
                 melodic.
@@ -206,66 +335,67 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* MUSIC */}
-        <section id="music" className="border-t border-zinc-800 py-16">
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-amber-300">
-                Music
-              </h2>
-              <p className="mt-3 text-2xl font-light tracking-wide">
-                Tracks & recordings.
-              </p>
-            </div>
-            {/* You can add “Listen on Spotify” button */}
-            <Link
-              href="#"
-              className="text-xs uppercase tracking-[0.2em] text-amber-300 underline underline-offset-4"
-            >
-              Open on Spotify
-            </Link>
-          </div>
+        {/*Gallery */}
+      {/* GALLERY */}
+<section id="gallery" className="border-t border-zinc-800 py-16">
+  <div className="mb-8 flex items-end justify-between">
+    <div>
+      <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+        Gallery
+      </h2>
+      <p className="mt-3 text-2xl font-light tracking-wide">
+        Images & live moments.
+      </p>
+    </div>
+  </div>
 
-          {/* Replace this with embeds (Spotify, SoundCloud, etc.) */}
-          <div className="grid gap-6 md:grid-cols-2">
-            {tracks.map((track) => (
-              <div
-                key={track.title}
-                className="rounded-lg border border-zinc-800 bg-zinc-950/40 p-4"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-medium">{track.title}</p>
-                    <p className="mt-1 text-xs text-zinc-400">
-                      {track.description}
-                    </p>
-                  </div>
-                  <button className="rounded-full border border-zinc-600 px-3 py-1 text-[11px] uppercase tracking-[0.2em] hover:border-amber-400 hover:text-amber-300">
-                    Play
-                  </button>
-                </div>
-                <div className="mt-4 h-[3px] w-full rounded-full bg-zinc-800">
-                  <div className="h-full w-1/3 rounded-full bg-amber-500" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+    {mediaItems.map((item, index) => (
+      <div
+        key={index}
+        className="group relative overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+      >
+        {/* IMAGE */}
+        {item.type === "image" && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={item.src}
+            alt={item.title}
+            className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
+
+        {/* VIDEO */}
+        {item.type === "video" && (
+          <video
+            src={item.src}
+            poster={item.poster}
+            controls
+            className="h-56 w-full object-cover"
+          />
+        )}
+
+        {/* Overlay text */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-zinc-200">
+          <p className="truncate">{item.title}</p>
+          <p className="mt-1 text-[10px] normal-case tracking-normal text-zinc-400">
+            {item.description}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
 
         {/* SHOWS */}
         <section id="shows" className="border-t border-zinc-800 py-16">
           <div className="mb-8 flex items-end justify-between">
             <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-amber-300">
+              <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
                 Live Shows
               </h2>
-              <p className="mt-3 text-2xl font-light tracking-wide">
-                Upcoming performances.
-              </p>
             </div>
-            <p className="text-xs text-zinc-400 uppercase tracking-[0.2em]">
-              More dates coming soon
-            </p>
           </div>
 
           <div className="space-y-4 text-sm">
@@ -274,7 +404,7 @@ export default function HomePage() {
                 key={show.date + show.venue}
                 className="grid items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-4 py-3 md:grid-cols-[120px,1fr,1fr]"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b36666]">
                   {show.date}
                 </p>
                 <p className="text-sm">
@@ -291,43 +421,27 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* GALLERY */}
-        <section id="gallery" className="border-t border-zinc-800 py-16">
+        {/* VIDEOS */}
+        <section id="covers" className="border-t border-zinc-800 py-16">
           <div className="mb-8 flex items-end justify-between">
             <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-amber-300">
-                Gallery
+              <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+                Covers
               </h2>
-              <p className="mt-3 text-2xl font-light tracking-wide">
-                Moments on and off stage.
-              </p>
+             
             </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {galleryImages.map((img) => (
-              <div
-                key={img.alt}
-                className="relative h-52 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
-              >
-                {/* Replace with next/image if you want */}
-                <div
-                  className="h-full w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${img.src})` }}
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-                <p className="absolute bottom-3 left-3 text-[11px] uppercase tracking-[0.2em] text-zinc-200">
-                  {img.alt}
-                </p>
-              </div>
-            ))}
-          </div>
+          <VideoSlider />
         </section>
 
         {/* CONTACT */}
-        <section id="contact" className="border-t border-zinc-800 py-16 mb-12">
+        <section
+          id="contact"
+          className="mb-12 border-t border-zinc-800 py-16"
+        >
           <div className="grid gap-10 md:grid-cols-[1.2fr,1fr]">
             <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-amber-300">
+              <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
                 Contact
               </h2>
               <p className="mt-3 text-2xl font-light tracking-wide">
@@ -343,7 +457,7 @@ export default function HomePage() {
                   Management:{" "}
                   <a
                     href="mailto:booking@example.com"
-                    className="underline underline-offset-4 hover:text-amber-300"
+                    className="underline underline-offset-4 hover:text-[#b36666]"
                   >
                     booking@example.com
                   </a>
@@ -359,7 +473,7 @@ export default function HomePage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:border-amber-400"
+                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Your name"
                 />
               </div>
@@ -369,7 +483,7 @@ export default function HomePage() {
                 </label>
                 <input
                   type="email"
-                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:border-amber-400"
+                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="you@email.com"
                 />
               </div>
@@ -379,7 +493,7 @@ export default function HomePage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:border-amber-400"
+                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Booking / Collaboration / Press..."
                 />
               </div>
@@ -389,13 +503,13 @@ export default function HomePage() {
                 </label>
                 <textarea
                   rows={4}
-                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:border-amber-400"
+                  className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Tell us about the event, dates, and location..."
                 />
               </div>
               <button
                 type="submit"
-                className="w-full rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black hover:bg-amber-400"
+                className="w-full rounded-full bg-[#b36666] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black hover:bg-[#b36666]"
               >
                 Send
               </button>
@@ -406,7 +520,7 @@ export default function HomePage() {
 
       {/* FOOTER */}
       <footer className="border-t border-zinc-800 py-6 text-center text-xs text-zinc-500">
-        © {new Date().getFullYear()} Collins OBiora. All rights reserved.
+        © {new Date().getFullYear()} Collins Obiora. All rights reserved.
       </footer>
     </div>
   );
