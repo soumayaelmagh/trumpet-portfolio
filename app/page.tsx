@@ -70,27 +70,32 @@ const mediaItems = [
     title:  "Trumpet solo",
     description: "Promo shoot for recent shows.",
   },
+   {
+    type: "image" as const,
+    src: "/media/img4.jpeg",
+    title:  "Trumpet solo",
+    description: "Promo shoot for recent shows.",
+  },
+  {
+    type: "image" as const,
+    src: "/media/img5.jpeg",
+    title:  "Trumpet solo",
+    description: "Promo shoot for recent shows.",
+  },
+   {
+    type: "image" as const,
+    src: "/media/img6.jpeg",
+    title:  "Trumpet solo",
+    description: "Promo shoot for recent shows.",
+  },
   {
     type: "video" as const,
-    src: "/media/video2.mp4",
+    src: "/media/video2.mov",
     poster: "/images/img1.JPEG", 
     title: "Trumpet solo",
     description: "Excerpt from a recent solo session.",
   },
-  {
-    type: "video" as const,
-    src: "/media/video1.mp4",
-    poster: "images/img1.JPEG",
-    title:  "Trumpet solo",
-    description: "Live recording with the quartet.",
-  },
-  {
-    type: "video" as const,
-    src: "/media/video3.mp4",
-    poster: "/images/img1.JPEG",
-    title:  "Trumpet solo",
-    description: "Live recording with the quartet.",
-  },
+
 ];
 
 function VideoSlider() {
