@@ -72,19 +72,19 @@ const mediaItems = [
   },
    {
     type: "image" as const,
-    src: "/media/img4.jpeg",
+    src: "/media/img4.jpg",
     title:  "Trumpet solo",
     description: "Promo shoot for recent shows.",
   },
   {
     type: "image" as const,
-    src: "/media/img5.jpeg",
+    src: "/media/img5.jpg",
     title:  "Trumpet solo",
     description: "Promo shoot for recent shows.",
   },
    {
     type: "image" as const,
-    src: "/media/img6.jpeg",
+    src: "/media/img6.jpg",
     title:  "Trumpet solo",
     description: "Promo shoot for recent shows.",
   },
