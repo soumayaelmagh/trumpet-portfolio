@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const sections = [
@@ -99,10 +99,19 @@ function GallerySlider() {
   const prev = () => setActiveIndex((idx) => (idx - 1 + total) % total);
   const next = () => setActiveIndex((idx) => (idx + 1) % total);
 
+  // Auto-advance the gallery
+  useEffect(() => {
+    if (total <= 1) return;
+    const id = window.setInterval(() => {
+      setActiveIndex((idx) => (idx + 1) % total);
+    }, 4500);
+    return () => clearInterval(id);
+  }, [total]);
+
   return (
     <div className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/60 px-4 py-6 shadow-2xl shadow-black/50 md:px-8 md:py-10">
       <div className="grid gap-8 md:grid-cols-[2fr,1fr] md:items-center">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+        <div className="relative aspect-4/3 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             key={current.src}
@@ -110,45 +119,13 @@ function GallerySlider() {
             alt={current.title}
             className="h-full w-full object-cover transition duration-500 ease-in-out"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 text-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
               {activeIndex + 1} / {total}
             </p>
             <p className="mt-2 text-lg font-medium">{current.title}</p>
             <p className="mt-1 text-sm text-zinc-300">{current.description}</p>
-          </div>
-        </div>
-
-        <div className="space-y-4 text-sm">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
-              Select a frame
-            </p>
-            <p className="mt-2 text-sm text-zinc-300">
-              Slide through live shots and promo stills.
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            {mediaItems.map((item, index) => (
-              <button
-                key={item.src}
-                onClick={() => setActiveIndex(index)}
-                className={`flex w-full items-center justify-between rounded-md border px-3 py-2 text-left transition ${
-                  index === activeIndex
-                    ? "border-[#b36666] bg-[#b36666]/15 text-[#b36666]"
-                    : "border-zinc-800 bg-zinc-900/60 hover:border-[#b36666]/60 hover:text-[#b36666]"
-                }`}
-              >
-                <span className="truncate text-xs uppercase tracking-[0.2em]">
-                  {item.title}
-                </span>
-                <span className="text-[10px] text-zinc-400">
-                  {index === activeIndex ? "Now" : "View"}
-                </span>
-              </button>
-            ))}
           </div>
         </div>
       </div>
