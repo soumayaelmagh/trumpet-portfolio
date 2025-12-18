@@ -91,6 +91,105 @@ const mediaItems = [
   
 ];
 
+function GallerySlider() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = mediaItems.length;
+  const current = mediaItems[activeIndex];
+
+  const prev = () => setActiveIndex((idx) => (idx - 1 + total) % total);
+  const next = () => setActiveIndex((idx) => (idx + 1) % total);
+
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/60 px-4 py-6 shadow-2xl shadow-black/50 md:px-8 md:py-10">
+      <div className="grid gap-8 md:grid-cols-[2fr,1fr] md:items-center">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            key={current.src}
+            src={current.src}
+            alt={current.title}
+            className="h-full w-full object-cover transition duration-500 ease-in-out"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-4 text-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+              {activeIndex + 1} / {total}
+            </p>
+            <p className="mt-2 text-lg font-medium">{current.title}</p>
+            <p className="mt-1 text-sm text-zinc-300">{current.description}</p>
+          </div>
+        </div>
+
+        <div className="space-y-4 text-sm">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
+              Select a frame
+            </p>
+            <p className="mt-2 text-sm text-zinc-300">
+              Slide through live shots and promo stills.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            {mediaItems.map((item, index) => (
+              <button
+                key={item.src}
+                onClick={() => setActiveIndex(index)}
+                className={`flex w-full items-center justify-between rounded-md border px-3 py-2 text-left transition ${
+                  index === activeIndex
+                    ? "border-[#b36666] bg-[#b36666]/15 text-[#b36666]"
+                    : "border-zinc-800 bg-zinc-900/60 hover:border-[#b36666]/60 hover:text-[#b36666]"
+                }`}
+              >
+                <span className="truncate text-xs uppercase tracking-[0.2em]">
+                  {item.title}
+                </span>
+                <span className="text-[10px] text-zinc-400">
+                  {index === activeIndex ? "Now" : "View"}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+
+      <div className="absolute left-3 top-1/2 -translate-y-1/2 md:left-4">
+        <button
+          type="button"
+          onClick={prev}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-black/70 text-zinc-200 shadow-lg transition hover:border-[#b36666] hover:text-[#b36666]"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+      </div>
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 md:right-4">
+        <button
+          type="button"
+          onClick={next}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-black/70 text-zinc-200 shadow-lg transition hover:border-[#b36666] hover:text-[#b36666]"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="mt-6 flex justify-center gap-2">
+        {mediaItems.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActiveIndex(idx)}
+            className={`h-1.5 w-6 rounded-full transition ${
+              idx === activeIndex ? "bg-[#b36666]" : "bg-zinc-700 hover:bg-[#b36666]/70"
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function VideoSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -347,32 +446,7 @@ export default function HomePage() {
     </div>
   </div>
 
-  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-    {mediaItems.map((item, index) => (
-      <div
-        key={index}
-        className="group relative overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
-      >
-        {/* IMAGE */}
-        {item.type === "image" && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.src}
-            alt={item.title}
-            className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        )}
-
-        {/* Overlay text */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-zinc-200">
-          <p className="truncate">{item.title}</p>
-          <p className="mt-1 text-[10px] normal-case tracking-normal text-zinc-400">
-            {item.description}
-          </p>
-        </div>
-      </div>
-    ))}
-  </div>
+  <GallerySlider />
 </section>
 
 
