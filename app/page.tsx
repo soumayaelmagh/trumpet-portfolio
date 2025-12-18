@@ -88,14 +88,7 @@ const mediaItems = [
     title:  "Trumpet solo",
     description: "Promo shoot for recent shows.",
   },
-  {
-    type: "video" as const,
-    src: "/media/video2.mov",
-    poster: "/images/img1.JPEG", 
-    title: "Trumpet solo",
-    description: "Excerpt from a recent solo session.",
-  },
-
+  
 ];
 
 function VideoSlider() {
@@ -367,16 +360,6 @@ export default function HomePage() {
             src={item.src}
             alt={item.title}
             className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        )}
-
-        {/* VIDEO */}
-        {item.type === "video" && (
-          <video
-            src={item.src}
-            poster={item.poster}
-            controls
-            className="h-56 w-full object-cover"
           />
         )}
 
