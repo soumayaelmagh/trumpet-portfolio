@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const sections = [
@@ -42,18 +42,12 @@ const tracks = [
 
 const videos = [
   {
-    title: "Live at Blue Note",
-    description: "Excerpt from the late-night trio set.",
     embedUrl: "https://www.youtube.com/embed/2O9dQ4OibuY",
   },
   {
-    title: "Studio Session – City Lights",
-    description: "Recording session from the latest EP.",
     embedUrl: "https://www.youtube.com/embed/eJMBApC44U8",
   },
   {
-    title: "Festival Performance",
-    description: "Highlights from the summer jazz festival.",
     embedUrl: "https://www.youtube.com/embed/llLoccyPIEw",
   },
 ];
@@ -98,15 +92,6 @@ function GallerySlider() {
 
   const prev = () => setActiveIndex((idx) => (idx - 1 + total) % total);
   const next = () => setActiveIndex((idx) => (idx + 1) % total);
-
-  // Auto-advance the gallery
-  useEffect(() => {
-    if (total <= 1) return;
-    const id = window.setInterval(() => {
-      setActiveIndex((idx) => (idx + 1) % total);
-    }, 4500);
-    return () => clearInterval(id);
-  }, [total]);
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/60 px-4 py-6 shadow-2xl shadow-black/50 md:px-8 md:py-10">
@@ -192,18 +177,10 @@ function VideoSlider() {
         <div className="aspect-video w-full overflow-hidden rounded-md bg-black">
           <iframe
             src={currentVideo.embedUrl}
-            title={currentVideo.title}
             className="h-full w-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
-          {/* For local video files instead of YouTube, replace iframe with:
-          <video
-            src="/videos/my-video.mp4"
-            controls
-            className="h-full w-full object-cover"
-          />
-          */}
         </div>
 
         {/* Info + list */}
@@ -212,34 +189,7 @@ function VideoSlider() {
             <p className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
               {currentIndex + 1} / {videos.length}
             </p>
-            <h3 className="mt-2 text-lg font-medium">{currentVideo.title}</h3>
-            <p className="mt-2 text-sm text-zinc-300">
-              {currentVideo.description}
-            </p>
-          </div>
-
-          <div className="space-y-2 text-xs text-zinc-400">
-            <p className="uppercase tracking-[0.2em] text-zinc-500">
-              Other videos
-            </p>
-            <div className="space-y-1">
-              {videos.map((video, index) => (
-                <button
-                  key={video.title}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`flex w-full items-center justify-between rounded-md px-2 py-1 text-left transition ${
-                    index === currentIndex
-                      ? "bg-[#b36666]/15 text-[#b36666]"
-                      : "hover:bg-zinc-800/70"
-                  }`}
-                >
-                  <span className="truncate">{video.title}</span>
-                  <span className="ml-2 text-[10px] uppercase tracking-[0.2em]">
-                    {index === currentIndex ? "Now" : "Play"}
-                  </span>
-                </button>
-              ))}
-            </div>
+           
           </div>
         </div>
       </div>
@@ -336,20 +286,15 @@ export default function HomePage() {
               >
                 Listen
               </button>
-              <button
-                onClick={() => handleNavClick("shows")}
-                className="rounded-full border border-zinc-600 px-5 py-2 hover:border-[#800000] hover:text-[#b36666]"
-              >
-                Live Dates
-              </button>
+             
             </div>
             <div className="mt-6 flex items-center gap-4 text-xs text-zinc-400">
               <span>Follow</span>
               <div className="flex gap-3">
-                <Link href="#" className="hover:text-[#b36666]">
+                <Link href="https://www.instagram.com/calynzthatrumpeter?igsh=MXducjZia2pmeHl4bg==" className="hover:text-[#b36666]">
                   Instagram
                 </Link>
-                <Link href="#" className="hover:text-[#b36666]">
+                <Link href="https://www.youtube.com/@Calynzthatrumpeter" className="hover:text-[#b36666]">
                   YouTube
                 </Link>
               </div>
@@ -426,40 +371,7 @@ export default function HomePage() {
   <GallerySlider />
 </section>
 
-
-        {/* SHOWS */}
-        <section id="shows" className="border-t border-zinc-800 py-16">
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <h2 className="text-xs uppercase tracking-[0.3em] text-[#b36666]">
-                Live Shows
-              </h2>
-            </div>
-          </div>
-
-          <div className="space-y-4 text-sm">
-            {upcomingShows.map((show) => (
-              <div
-                key={show.date + show.venue}
-                className="grid items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-4 py-3 md:grid-cols-[120px,1fr,1fr]"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b36666]">
-                  {show.date}
-                </p>
-                <p className="text-sm">
-                  {show.venue}
-                  <span className="block text-xs text-zinc-400">
-                    {show.city}
-                  </span>
-                </p>
-                <p className="text-xs text-zinc-400 md:text-right">
-                  {show.note}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
+      
         {/* VIDEOS */}
         <section id="covers" className="border-t border-zinc-800 py-16">
           <div className="mb-8 flex items-end justify-between">
@@ -501,7 +413,7 @@ export default function HomePage() {
                     booking@example.com
                   </a>
                 </p>
-                <p>Based in: New York, USA</p>
+                <p>Based in: Famgusta, Cyprus</p>
               </div>
             </div>
 
