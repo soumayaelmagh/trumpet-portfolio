@@ -9,36 +9,12 @@ const sections = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
  { id: "gallery", label: "Gallery" },
-  { id: "shows", label: "Shows" },
   { id: "covers", label: "Covers" },
   { id: "contact", label: "Contact" },
 ];
 
-const upcomingShows = [
-  {
-    date: "Dec 14, 2025",
-    venue: "Blue Note Jazz Club",
-    city: "New York, USA",
-    note: "Late-night set",
-  },
-  {
-    date: "Jan 03, 2026",
-    venue: "Sunset Lounge",
-    city: "Paris, France",
-    note: "Trio performance",
-  },
-];
 
-const tracks = [
-  {
-    title: "Midnight Brass",
-    description: "Smoky ballad featuring muted trumpet and piano.",
-  },
-  {
-    title: "City Lights",
-    description: "Upbeat tune inspired by late-night gigs.",
-  },
-];
+
 
 const videos = [
   {
@@ -115,7 +91,7 @@ function GallerySlider() {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 right-0 bg-linear-to-r from-black/40 via-transparent to-black/40" />
 
       <div className="absolute left-3 top-1/2 -translate-y-1/2 md:left-4">
         <button
@@ -280,16 +256,11 @@ export default function HomePage() {
               deep grooves, and cinematic soundscapes.
             </p>
             <div className="flex flex-wrap gap-4 text-xs uppercase tracking-widest">
-              <button
-                onClick={() => handleNavClick("music")}
-                className="rounded-full bg-[#b36666] px-5 py-2 text-black hover:bg-[#b36666]"
-              >
-                Listen
-              </button>
+            
              
             </div>
             <div className="mt-6 flex items-center gap-4 text-xs text-zinc-400">
-              <span>Follow</span>
+              <span className="text-[#b36666]">Follow</span>
               <div className="flex gap-3">
                 <Link href="https://www.instagram.com/calynzthatrumpeter?igsh=MXducjZia2pmeHl4bg==" className="hover:text-[#b36666]">
                   Instagram
@@ -321,10 +292,9 @@ export default function HomePage() {
                 A trumpet story written in smoky rooms and late-night sessions.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-zinc-300">
-                Collins OBiora is a trumpet player and composer whose sound
+                Collins OBiora is a trumpet player whose sound
                 blends classic jazz, contemporary harmony, and cinematic
-                textures. Having performed in clubs and festivals across Europe
-                and the US, his music balances lyricism with fearless
+                textures. Having performed in clubs and festivals, his music balances lyricism with fearless
                 improvisation.
               </p>
               <p className="mt-3 text-sm leading-relaxed text-zinc-300">
@@ -335,14 +305,7 @@ export default function HomePage() {
             </div>
             <div className="space-y-4 text-sm text-zinc-300">
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400">
-                  Highlights
-                </h3>
-                <ul className="mt-3 space-y-1 text-xs">
-                  <li>• Performed at major jazz festivals in 5+ countries</li>
-                  <li>• Collaborations with vocalists, big bands, and DJs</li>
-                  <li>• Studio sessions for film, ads, and game soundtracks</li>
-                </ul>
+                
               </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400">
