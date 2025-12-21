@@ -373,7 +373,7 @@ export default function HomePage() {
                     href="mailto:booking@example.com"
                     className="underline underline-offset-4 hover:text-[#b36666]"
                   >
-                    booking@example.com
+                    Obiorajnr2@gmail.com
                   </a>
                 </p>
                 <p>Based in: Famgusta, Cyprus</p>
