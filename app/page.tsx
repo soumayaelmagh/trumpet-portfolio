@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const sections = [
@@ -191,12 +191,56 @@ function VideoSlider() {
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState("home");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [formStatus, setFormStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleNavClick = (id: string) => {
     setActiveSection(id);
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleInputChange =
+    (field: keyof typeof formData) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: event.target.value }));
+    };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormStatus("loading");
+    setFormError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setFormStatus("error");
+        setFormError(data?.error || "Unable to send message. Please try again.");
+        return;
+      }
+
+      setFormStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      setFormStatus("error");
+      setFormError("Something went wrong. Please try again.");
     }
   };
 
@@ -380,7 +424,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <form className="space-y-4 text-sm">
+            <form className="space-y-4 text-sm" onSubmit={handleSubmit}>
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-[0.2em] text-zinc-400">
                   Name
@@ -389,6 +433,9 @@ export default function HomePage() {
                   type="text"
                   className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Your name"
+                  value={formData.name}
+                  onChange={handleInputChange("name")}
+                  required
                 />
               </div>
               <div>
@@ -399,6 +446,9 @@ export default function HomePage() {
                   type="email"
                   className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="you@email.com"
+                  value={formData.email}
+                  onChange={handleInputChange("email")}
+                  required
                 />
               </div>
               <div>
@@ -409,6 +459,8 @@ export default function HomePage() {
                   type="text"
                   className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Booking / Collaboration / Press..."
+                  value={formData.subject}
+                  onChange={handleInputChange("subject")}
                 />
               </div>
               <div>
@@ -419,14 +471,26 @@ export default function HomePage() {
                   rows={4}
                   className="w-full rounded border border-zinc-700 bg-black px-3 py-2 text-sm outline-none focus:bg-[#b36666]"
                   placeholder="Tell us about the event, dates, and location..."
+                  value={formData.message}
+                  onChange={handleInputChange("message")}
+                  required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full rounded-full bg-[#b36666] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black hover:bg-[#b36666]"
+                disabled={formStatus === "loading"}
+                className="w-full rounded-full bg-[#b36666] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black hover:bg-[#b36666] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Send
+                {formStatus === "loading" ? "Sending..." : "Send"}
               </button>
+              {formStatus === "success" && (
+                <p className="text-sm text-green-400">
+                  Message sent! We&apos;ll get back to you soon.
+                </p>
+              )}
+              {formStatus === "error" && formError && (
+                <p className="text-sm text-red-400">{formError}</p>
+              )}
             </form>
           </div>
         </section>
