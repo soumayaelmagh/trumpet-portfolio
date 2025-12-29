@@ -5,6 +5,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: " Collins OBiora | Trumpet Player",
   description: "Trumpet player portfolio and contact.",
+  icons: [{ url: "/icon.png", type: "image/png" }],
+
 };
 
 export default function RootLayout({
